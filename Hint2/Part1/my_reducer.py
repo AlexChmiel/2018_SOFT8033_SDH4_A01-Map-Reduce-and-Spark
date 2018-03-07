@@ -12,34 +12,23 @@
 # but it will execute nothing yet.
 # --------------------------------------------------------
 
-import codecs
 import sys
-
+import codecs
 
 # ------------------------------------------
-# FUNCTION get_total_visits
+# FUNCTION my_reduce
 # ------------------------------------------
-def get_total_visits(input_stream):
-    # Get the total number of visits per each page.
+def my_reduce(input_stream, output_stream):
     total = 0
     
     for each_line in input_stream:
-        words = each_line.split()
-        # Check if the string at position 2 is a digit, before being converted to integer.
-        # This threw errors when special characters were involved in one of the files.
-        if words[2].isdigit():
-            visits = int(words[2])
-            total = total + visits
-        
-    return total
+        visits = each_line.split()[1]
+        if visits.isdigit():
+            visits = int(visits)
+        total = total + visits
+    
+    output_stream.write(str(total))
 
-# ------------------------------------------
-# FUNCTION my_map
-# ------------------------------------------
-def my_map(input_stream, output_stream):
-    total_visits = get_total_visits(input_stream)
-    str_returned = "Total_visits\t" + str(total_visits) + "\n"
-    output_stream.write(str_returned)
 # ------------------------------------------
 # FUNCTION my_main
 # ------------------------------------------
@@ -56,7 +45,7 @@ def my_main(debug, i_file_name, o_file_name):
         my_output_stream = sys.stdout
 
     # We launch the Map program
-    my_map(my_input_stream, my_output_stream)
+    my_reduce(my_input_stream, my_output_stream)
 
 # ---------------------------------------------------------------
 #           PYTHON EXECUTION
@@ -69,8 +58,7 @@ if __name__ == '__main__':
     # 1. Input parameters
     debug = True
 
-    i_file_name = "pageviews-20180219-100000_0.txt"
-    o_file_name = "mapResult.txt"
+    i_file_name = "sort_simulation.txt"
+    o_file_name = "reduce_simulation.txt"
 
-    # 2. Call to the function
     my_main(debug, i_file_name, o_file_name)
