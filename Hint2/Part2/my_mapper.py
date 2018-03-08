@@ -31,16 +31,20 @@ def my_map(input_stream, per_language_or_project, output_stream):
         # This caused errors when special characters were involved in one of the files.
         if words[2].isdigit():
             visits = int(words[2])
-            
+        else:
+            for each in words:
+                if each.isdigit(): 
+                    visits = int(each)
+                    break
             # Get the first prefix of the language e.g. everything before the "." character   
-            if '.' in lang_prefix: 
-                lang_prefix = lang_prefix.split('.')[0]
+        if '.' in lang_prefix: 
+            lang_prefix = lang_prefix.split('.')[0]
        
         # Create dictionary where key = lang_prefix and value = visits
-            if lang_prefix not in dict_of_langs:
-                dict_of_langs[lang_prefix] = visits
-            else:
-                dict_of_langs[lang_prefix] = dict_of_langs.get(lang_prefix) + visits
+        if lang_prefix not in dict_of_langs:
+            dict_of_langs[lang_prefix] = visits
+        else:
+            dict_of_langs[lang_prefix] = dict_of_langs.get(lang_prefix) + visits
         
     # Write to the output
     for key, value in dict_of_langs.items():

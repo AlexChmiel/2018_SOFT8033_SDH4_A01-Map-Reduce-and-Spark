@@ -26,10 +26,17 @@ def get_total_visits(input_stream):
     for each_line in input_stream:
         words = each_line.split()
         # Check if the string at position 2 is a digit, before being converted to integer.
+        # If it isn't, loop through to find the first occurence of the integer.
         # This threw errors when special characters were involved in one of the files.
         if words[2].isdigit():
             visits = int(words[2])
-            total = total + visits
+        else:
+            for each in words:
+                if each.isdigit(): 
+                    visits = int(each)
+                    break
+        
+        total = total + visits
         
     return total
 

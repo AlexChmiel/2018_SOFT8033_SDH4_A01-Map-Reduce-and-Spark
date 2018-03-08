@@ -22,9 +22,16 @@ def my_reduce(input_stream, output_stream):
     total = 0
     
     for each_line in input_stream:
-        visits = each_line.split()[1]
+        words = each_line.split()
+        visits = words[1]
         if visits.isdigit():
             visits = int(visits)
+        else:
+            for each in words:
+                if each.isdigit(): 
+                    visits = int(each)
+                    break
+                
         total = total + visits
     
     output_stream.write(str(total))

@@ -23,7 +23,14 @@ def my_reduce(input_stream, total_petitions, output_stream):
     for each_line in input_stream:
         words = each_line.split() # Split by empty space.
         lang_prefix = words[0] # Grab language
-        visits = int(words[1])
+        
+        if words[1].isdigit():
+            visits = int(words[1])
+        else:
+            for each in words:
+                if each.isdigit(): 
+                    visits = int(each)
+                    break
            
         # Create dictionary where key = lang_prefix and value = visits
         if lang_prefix not in dict_of_langs:
@@ -69,7 +76,7 @@ if __name__ == '__main__':
     debug = True
 
     # This variable must be computed in the first stage
-    total_petitions = 21996621 # This number is skewed slightly because of UTF8 issues encountered in my_mapper
+    total_petitions = 21996631
 
     i_file_name = "sort_simulation.txt"
     o_file_name = "reduce_simulation.txt"
