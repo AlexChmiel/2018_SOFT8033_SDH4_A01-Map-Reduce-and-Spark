@@ -15,6 +15,23 @@
 import sys
 import codecs
 
+# -----------------------------------------
+# FUNCTION  get_lang_or_project
+def get_lang_or_project(per_language_or_project, words):
+    
+    if per_language_or_project == False: # Per project
+            if '.' in words: 
+                return words.split('.')[1]
+            else:
+                return 'wikipedia'
+        # If per project
+    if per_language_or_project == True: # Per Language
+        if '.' in words:
+            return words.split('.')[0]
+        else:
+            return words[0]
+# ------------------------------------------
+
 # ------------------------------------------
 # FUNCTION my_map
 # ------------------------------------------
@@ -24,9 +41,11 @@ def my_map(input_stream, per_language_or_project, output_stream):
 
     dict_of_langs = {}
     for each_line in input_stream:
-        words = each_line.split() # Split by empty space.
-        lang_prefix = words[0] # Grab language
+        words = each_line.split()
         
+        # Gets language or project based on per_language_or_project value
+        specifier = get_lang_or_project(per_language_or_project, words[0]) 
+    
         # Check if the string at position 2 is a digit, before being converted to integer.
         # This caused errors when special characters were involved in one of the files.
         if words[2].isdigit():
@@ -36,15 +55,12 @@ def my_map(input_stream, per_language_or_project, output_stream):
                 if each.isdigit(): 
                     visits = int(each)
                     break
-            # Get the first prefix of the language e.g. everything before the "." character   
-        if '.' in lang_prefix: 
-            lang_prefix = lang_prefix.split('.')[0]
-       
+        
         # Create dictionary where key = lang_prefix and value = visits
-        if lang_prefix not in dict_of_langs:
-            dict_of_langs[lang_prefix] = visits
+        if specifier not in dict_of_langs:
+            dict_of_langs[specifier] = visits
         else:
-            dict_of_langs[lang_prefix] = dict_of_langs.get(lang_prefix) + visits
+            dict_of_langs[specifier] = dict_of_langs.get(specifier) + visits
         
     # Write to the output
     for key, value in dict_of_langs.items():

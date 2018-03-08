@@ -23,7 +23,8 @@ def my_reduce(input_stream, total_petitions, output_stream):
     for each_line in input_stream:
         words = each_line.split() # Split by empty space.
         lang_prefix = words[0] # Grab language
-        
+        # Check if the string at position 2 is a digit, before being converted to integer.
+        # This caused errors when special characters were involved in one of the files.    
         if words[1].isdigit():
             visits = int(words[1])
         else:
@@ -41,10 +42,8 @@ def my_reduce(input_stream, total_petitions, output_stream):
     # Write to the output
     for key in sorted(dict_of_langs, key=dict_of_langs.get, reverse=True):
         value = dict_of_langs[key]
-        total_petitions_ratio = '{:.10f}%'.format((value/total_petitions) * 100)
-        value = value, total_petitions_ratio
-        
-        output_stream.write(str(key) + "\t" + str(value) + "\n")
+        total_petitions_ratio = '{:.12f}%'.format((value/total_petitions) * 100)
+        output_stream.write(str(key) + "\t(" + str(value) + ", " + str(total_petitions_ratio) + ")\n")
 
 # ------------------------------------------
 # FUNCTION my_main
