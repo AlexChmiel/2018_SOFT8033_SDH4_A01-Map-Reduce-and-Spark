@@ -34,7 +34,7 @@ class Record:
 # FUNCTION get_smallest_record_in_list():
 # ------------------------------------------
 def get_smallest_record_in_list(dict_of_records, record):
-    # This function finds the smallest value in a list and replaces it with current one
+    # This function finds the smallest value in a list and replaces it with current one if it's larger than the smallest one.
     min_val = min(dict_of_records.get(record.language), key=lambda x: x.visits).visits
     #If current visits larger than smallest in the list, replace it with current record.
     if(record.visits > min_val or record.visits == min_val):
