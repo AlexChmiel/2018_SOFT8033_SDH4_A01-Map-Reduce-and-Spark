@@ -32,17 +32,35 @@ class Record:
         return self.language + "\t" + "(" + self.site_name + "," + str(self.visits) + ")"
 
 
-#--------------------------------------------------------
+# ------------------------------------------------
 # FUNCTION sort_dict
+# ------------------------------------------------
 def sort_list(dict_of_top_5):
     for key, li in dict_of_top_5.items():
         sorted_list = sorted(li, key = lambda x: x.visits, reverse=True)
         dict_of_top_5[key] = sorted_list
             
     return dict_of_top_5
-#---------------------------------------------------
+
+
+# ------------------------------------------------
+# FUNCTION get_smallest_record_in_list()
+# ------------------------------------------------
+def get_smallest_record_in_list(dict_of_records, record): 
+# Get the lowest value in the list of top 5 records
+    min_val = min(dict_of_records.get(record.language), key=lambda x: x.visits).visits
+    #If current visits larger than smallest in the list, replace it with current record.
+    if(record.visits > min_val or record.visits == min_val):
+        list_top_5 = dict_of_records.get(record.language)
+        for index, value in enumerate(list_top_5):
+            if(value.visits == min_val):
+                list_top_5[index] = record
+                break
+            
+    return dict_of_records
+#-------------------------------------------------
 # FUNCTION get_dict_of_top5_records
-#----------------------------------------------------
+# ------------------------------------------------
 def get_dict_of_top5_records(input_stream, num_top_entries):
     # Split the lines into 3 words, language, site_name and visits
     # Create a top 5 list with 0 values, check if the current value is larger than the smallest value in the list, 
@@ -59,16 +77,8 @@ def get_dict_of_top5_records(input_stream, num_top_entries):
         visits = int(site_visits_list[1])
         
         if(lang in dict_of_records):
-            # Get the lowest value in the list of 5 top 5 records
-            min_val = min(dict_of_records.get(lang), key=lambda x: x.visits).visits
-            #If current visits larger than smallest in the list, replace it with current record.
-            if(visits > min_val or visits == min_val):
-                list_top_5 = dict_of_records.get(lang)
-                for index, value in enumerate(list_top_5):
-                    if(value.visits == min_val):
-                        record = Record(lang, site_name, visits)
-                        list_top_5[index] = record
-                        break
+            record = Record(lang, site_name, visits)
+            get_smallest_record_in_list(dict_of_records, record)
         else:
             list_of_top_5 = [Record("","",0) for i in range(num_top_entries-1)]
             record = Record(lang, site_name, visits)
