@@ -42,19 +42,19 @@ part-xxxxx with the solutions computed. The final solution to the MapReduce job
 requires to merge all part-xxxx files into a single file. This merge can be done by
 a daemon (a simple Python program) and its not part of the MapReduce job.
 
-- Hint 1:
+Hint 1:
 GOAL.
 Given a Wikimedia dump (e.g., the pageviews-20180219-100000 being provided):
 - Create a MapReduce job to compute the 5 entries with most page views for all
 Wikimedia projects in the languages English, Spanish and French. 
 
-- Hint 2:
+Hint 2:
 GOAL.
 Given a Wikimedia dump (e.g., the pageviews-20180219-100000 being provided):
 - Create a MapReduce job to compute the number and percentage of petitions per
 language and per project.
 
-- Hint 3:
+Hint 3:
 GOAL.
 Given a Wikimedia dump (e.g., the pageviews-20180219-100000 being provided):
 - Create a Spark job to compute the 5 entries with most page views for all Wikimedia
